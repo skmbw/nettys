@@ -25,8 +25,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		String msg = "{\"name\":\"yinlei尹雷\"}";
 		ctx.write(msg);
-		ctx.write(readFile());
-		//ctx.write(msg);
+		//ctx.write(readFile());
+		ctx.write(msg);
 		ctx.flush();
 	}
 	
