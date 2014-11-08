@@ -54,7 +54,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-		ctx.close();// 接受服务端返回的消息完毕，关闭链接
+		// 如果要建立长连接这里不能关闭连接
+		//ctx.close();// 接受服务端返回的消息完毕，关闭链接
 	}
 
 	@Override
