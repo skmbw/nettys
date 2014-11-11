@@ -36,7 +36,7 @@ public class Server {
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.group(bossEventLoopGroup, workerEventLoopGroup)
 				.channel(NioServerSocketChannel.class)
-				.handler(new LoggingHandler(LogLevel.WARN))
+				.handler(new LoggingHandler(LogLevel.INFO))// 父handler的日志，对连接的建立，断开等的记录，不涉及到具体的子handler的数据
 				.childHandler(serverChannelInitializer);
 			
 			// 绑定监听的端口

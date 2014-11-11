@@ -37,7 +37,7 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
 		pipeline.addLast("encoder", new StringEncoder(Char.UTF8));
 		
 		// logger既是Inbound，又是Outbound
-		pipeline.addLast("logger", new LoggingHandler(LogLevel.INFO));
+		pipeline.addLast("logger", new LoggingHandler(LogLevel.INFO));//子handler的日志，对一个socket连接的日志的记录
 		
 		/**********ChannelInboundHandler（接受数据），进来数据，顺序执行*************/
 		
