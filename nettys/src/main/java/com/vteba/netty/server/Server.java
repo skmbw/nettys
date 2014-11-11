@@ -50,6 +50,7 @@ public class Server {
 			LOGGER.error("Netty Server守护进程启动异常。", e);
 		} finally {
 			// 关闭线程池，释放资源
+			LOGGER.info("Netty Server关闭，释放资源。");
 			bossEventLoopGroup.shutdownGracefully();
 			workerEventLoopGroup.shutdownGracefully();
 		}
