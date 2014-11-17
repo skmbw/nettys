@@ -11,8 +11,8 @@ import io.netty.handler.logging.LoggingHandler;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.vteba.socket.netty.HeartBeatHandler;
-import com.vteba.socket.netty.LengthBasedFrameDecoder;
+import com.vteba.netty.codec.LengthBasedFrameDecoder;
+import com.vteba.netty.handler.HeartBeatHandler;
 import com.vteba.utils.charstr.Char;
 
 /**
