@@ -1,9 +1,7 @@
 package com.vteba.netty.server;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -11,6 +9,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,9 +58,9 @@ public class Server {
 			ChannelFuture future = serverBootstrap.bind(8080).sync();
 			
 			LOGGER.info("Netty Server守护进程启动成功。");
-			
+			Channel channel = future.channel();
 			// 等待直到链接被关闭
-			future.channel().closeFuture().sync();
+			channel.closeFuture().sync();
 		} catch (Exception e) {
 			LOGGER.error("Netty Server守护进程启动异常。", e);
 		} finally {
