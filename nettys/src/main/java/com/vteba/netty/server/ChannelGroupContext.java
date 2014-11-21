@@ -7,7 +7,7 @@ import io.netty.channel.group.DefaultChannelGroup;
 import javax.inject.Named;
 
 /**
- * 持有所有的客户端连接，用于向client push消息，由server主动发起。
+ * 持有所有的客户端连接Channel，用于向client push消息，由server主动发起。
  * 
  * @author yinlei
  * @see
@@ -22,14 +22,26 @@ public class ChannelGroupContext {
 		channelGroup = new DefaultChannelGroup("pushChannelGroup", PushEventExecutor.INSTANCE);
 	}
 	
+	/**
+	 * 保存Channel（和客户端之间的连接通道）到ChannelGroup中。一般是新建连接时调用
+	 * @param channel 待保存的channel
+	 */
 	public void addChannel(Channel channel) {
 		channelGroup.add(channel);
 	}
 	
+	/**
+	 * 删除指定的Channel，断开连接时调用
+	 * @param channel 待删除的channel
+	 */
 	public void removeChannel(Channel channel) {
 		channelGroup.remove(channel);
 	}
 	
+	/**
+	 * Broadcast a message to multiple Channels
+	 * @param message 要广播的消息
+	 */
 	public void send(Object message) {
 		channelGroup.write(message);
 	}
