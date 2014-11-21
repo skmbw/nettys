@@ -1,11 +1,10 @@
 package com.vteba.netty.server;
 
-import javax.inject.Named;
-
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.util.concurrent.GlobalEventExecutor;
+
+import javax.inject.Named;
 
 /**
  * 持有所有的客户端连接，用于向client push消息，由server主动发起。
@@ -20,7 +19,7 @@ public class ChannelGroupContext {
 	
 	public ChannelGroupContext() {
 		// 对于大并发，后面的事件执行器要重写，因为他是单线程的，处理能力不够
-		channelGroup = new DefaultChannelGroup("pushChannelGroup", GlobalEventExecutor.INSTANCE);
+		channelGroup = new DefaultChannelGroup("pushChannelGroup", PushEventExecutor.INSTANCE);
 	}
 	
 	public void addChannel(Channel channel) {
