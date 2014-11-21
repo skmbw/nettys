@@ -1,13 +1,14 @@
 package com.vteba.netty.server;
 
+import io.netty.channel.ChannelHandler.Sharable;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.ChannelHandler.Sharable;
 
 /**
  * 服务端Handler，业务处理器
@@ -19,6 +20,17 @@ import io.netty.channel.ChannelHandler.Sharable;
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServerHandler.class);
 	
+	@Inject
+	private ChannelGroupContext channelGroupContext;
+	
+	@Override
+	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+		channelGroupContext.addChannel(ctx.channel());
+		super.channelInactive(ctx);
+//		TimeUnit.SECONDS.sleep(15);
+		channelGroupContext.send("尹雷服务端push");
+	}
+
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {

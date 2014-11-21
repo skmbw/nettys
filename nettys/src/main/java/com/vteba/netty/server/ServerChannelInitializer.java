@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.vteba.netty.codec.LengthBasedFrameDecoder;
-import com.vteba.netty.handler.HeartBeatHandler;
 import com.vteba.utils.charstr.Char;
 
 /**

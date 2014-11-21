@@ -10,6 +10,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,6 +31,9 @@ public class Server {
 	@Inject
 	private ServerChannelInitializer serverChannelInitializer;
 	
+	@Inject
+	private ChannelGroupContext channelGroupContext;
+	
 	public void start() {
 		LOGGER.info("Netty Server守护进程启动。");
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();// 监听线程组，分派任务的主管
@@ -38,6 +43,8 @@ public class Server {
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.group(bossEventLoopGroup, workerEventLoopGroup)
 				.channel(NioServerSocketChannel.class)
+				// 解决传输文件的时候爆没有sun buf类的问题
+				//.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
 				.option(ChannelOption.TCP_NODELAY, true)// 是否开启nagle算法，开启后会导致ack问题，true关闭
 				.option(ChannelOption.SO_KEEPALIVE, true)// 这个不是长连接，每隔2H探测client是否死掉，对应用作用不是很大
 				//输入连接指示（对连接的请求）的最大队列长度被设置为 backlog 参数。如果队列满时收到连接指示，则拒绝该连接。
@@ -59,6 +66,9 @@ public class Server {
 			
 			LOGGER.info("Netty Server守护进程启动成功。");
 			Channel channel = future.channel();
+			
+			TimeUnit.SECONDS.sleep(15);
+			channelGroupContext.send("Server尹雷服务端push");
 			// 等待直到链接被关闭
 			channel.closeFuture().sync();
 		} catch (Exception e) {
